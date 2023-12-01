@@ -1,0 +1,17 @@
+{% extends 'partials/body.html'%}
+{% load crispy_forms_tags %}
+
+{% block contenido %}
+    <div class="container-fluid m-5">
+        <div class="rounded card p-3 col-md-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token%}
+                {{form|crispy }}
+
+            <input clas="btn btn-success" type="submit" value="{{accion}} {{titulo}}">
+            <a href="{% url 'usuarios' %}" class="btn btn-danger">Cancelar</a>
+        </form>
+        </div>
+    </div>
+
+{% endblock contenido %}

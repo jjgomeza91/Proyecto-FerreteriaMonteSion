@@ -1,0 +1,82 @@
+{% extends 'partials/body.html' %}
+{% load bootstrap_icons %}
+
+{% block contenido %}
+    <!-- Cuerpo (Tabla de 7 columnas y campo de búsqueda) -->
+    <div class="container mt-5">
+        <div class="row mb-4"> <!-- Agregamos un margen inferior (mb-4) a esta fila -->
+            <div class="col-md-12">
+                <h2 class="text-center">Usuarios</h2>
+            </div>
+        </div>
+        <div class="row mb-4">
+
+            <div class="col-md-7">
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-outline-secondary btn-block float-end" type="button" id="button-addon2" href="{% url 'usuarios_crear' %}">Nuevo</a>
+            </div>
+        </div>
+
+        <table class="table table-bordered w-100">
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Fecha de Nacimiento</th>
+                <th>Rol</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+                <th>Tipo de Documento</th>
+                <th>Documento</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            {% if usuario.estado %}
+                <tr>
+                    <td>
+                        <img src="{{ usuario.imagen.url }}" class="img-circle elevation-2" alt="User Image" width="60" />
+                    </td>
+                    <td>{{ usuario.full_name }} </td>
+                    <td>{{ usuario.fechaNacimiento }}</td>
+                    <td>{{ usuario.get_rol_display }}</td>
+                    <td>{{ usuario.direccion }}</td>
+                    <td>{{ usuario.ciudad }}</td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.get_tipo_documento_display }}</td>
+                    <td>{{ usuario.documento }}</td>
+                    <td>{{ usuario.estado }}</td>
+                    <td>
+                  
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ usuario.id }}">{% bs_icon 'trash' %}</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{ usuario.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Esta seguro de eliminar el {{ titulo }}</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">una vez eliminado no hay marcha atras</div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <a href="{% url 'usuario-eliminar' usuario.id %}" class="btn btn-primary">Eliminar!</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                    <a href="{% url 'usuario-editar' usuario.id %}" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">{% bs_icon 'pencil' %}</a>
+                </td>
+
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody> 
+        </table>
+    </div>
+
+{% endblock contenido %}
